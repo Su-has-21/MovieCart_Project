@@ -3,45 +3,47 @@ import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import Logo from "./Pages/Logo";
 import SignUp from "./Pages/SignUp";
 import Login from "./Pages/Login";
-import Cart from "./Pages/Cart";
+import Cart from "./Components/Cart";
 import Shopping from "./Pages/Shopping";
 import Nav from "./Components/Nav";
-import "./nav.css";
+import "./styles/main.css";
+import "./styles/theme.css";
+import "./App.css";
 import ProductProvider from "./context/ProductContext";
-import Footer from "./Pages/Footer";
+// import Footer from "./Pages/Footer";
 
 let router = createBrowserRouter([
   {
     path: "/",
     element: (
-      <>
-        <div className="content_container">
-          <Nav></Nav>
-          <Outlet></Outlet>
-        </div>
-        <Footer></Footer>
-      </>
+      <div className="app-container">
+        <Nav />
+        <main className="main-content container">
+          <Outlet />
+        </main>
+        {/* <Footer /> */}
+      </div>
     ),
     children: [
       {
         path: "/logo",
-        element: <Logo></Logo>,
+        element: <Logo />,
       },
       {
         path: "/signup",
-        element: <SignUp></SignUp>,
+        element: <SignUp />,
       },
       {
         path: "/login",
-        element: <Login></Login>,
+        element: <Login />,
       },
       {
         path: "/cart",
-        element: <Cart></Cart>,
+        element: <Cart />,
       },
       {
         path: "/shopping",
-        element: <Shopping></Shopping>,
+        element: <Shopping />,
       },
     ],
   },
@@ -50,9 +52,7 @@ let router = createBrowserRouter([
 const App = () => {
   return (
     <ProductProvider>
-      <div id="container">
-        <RouterProvider router={router}></RouterProvider>
-      </div>
+      <RouterProvider router={router} />
     </ProductProvider>
   );
 };

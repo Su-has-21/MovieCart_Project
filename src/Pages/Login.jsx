@@ -1,56 +1,92 @@
-import React, { useState } from "react";
+import React from "react";
+import { Link } from "react-router-dom";
+import "../styles/login.css";
 
 const Login = () => {
-  let [state, setState] = useState({
-    email: "",
-    password: "",
-  });
-
-  let { email, password } = state;
-
-  let handleChanges = (e) => {
-    let { name, value } = e.target;
-    setState({ ...state, [name]: value });
-  };
-
-  let handleSubmit = (e) => {
-    e.preventDefault();
-    try {
-      console.log({ ...state });
-    } catch {
-      console.log("Invalid");
-    }
-  };
-
   return (
-    <div className="pages login">
-      <form action="" onSubmit={handleSubmit} id="form1">
-        <div className="fields">
-          <label htmlFor="">Email:</label>
-          <input
-            type="email"
-            name="email"
-            id=""
-            onChange={handleChanges}
-            className="bar"
-          />
+    <div className="login-container">
+      <div className="login-content">
+        <div className="login-header">
+          <div className="movie-icon">
+            <i className="fas fa-film"></i>
+          </div>
+          <h2>Welcome Back</h2>
+          <p>Sign in to continue your movie journey</p>
         </div>
 
-        <br />
-        <div className="fields">
-          <label htmlFor="">Password:</label>
-          <input
-            type="password"
-            name="password"
-            id=""
-            onChange={handleChanges}
-            className="bar"
-          />
-        </div>
+        <form id="form1" className="login-form">
+          <div className="form-group">
+            <div className="input-group">
+              <i className="fas fa-envelope"></i>
+              <input
+                type="email"
+                className="bar"
+                id="email"
+                placeholder="Enter your email"
+              />
+            </div>
+          </div>
 
-        <br />
-        <input type="submit" value="Submit" id="loginsubmit" />
-      </form>
+          <div className="form-group">
+            <div className="input-group">
+              <i className="fas fa-lock"></i>
+              <input
+                type="password"
+                className="bar"
+                id="password"
+                placeholder="Enter your password"
+              />
+            </div>
+          </div>
+
+          <div className="form-options">
+            <label className="remember-me">
+              <input type="checkbox" />
+              <span>Remember me</span>
+            </label>
+            <Link to="/forgot-password" className="forgot-password">
+              Forgot Password?
+            </Link>
+          </div>
+
+          <button type="submit" id="loginsubmit" className="login-button">
+            <span className="button-content">
+              <i className="fas fa-sign-in-alt"></i>
+              Sign In
+            </span>
+            <span className="button-effect"></span>
+          </button>
+
+          <div className="social-login">
+            <div className="divider">
+              <span>Or continue with</span>
+            </div>
+            <div className="social-buttons">
+              <button type="button" className="social-btn google">
+                <i className="fab fa-google"></i>
+                <span>Google</span>
+              </button>
+              <button type="button" className="social-btn facebook">
+                <i className="fab fa-facebook-f"></i>
+                <span>Facebook</span>
+              </button>
+              <button type="button" className="social-btn twitter">
+                <i className="fab fa-twitter"></i>
+                <span>Twitter</span>
+              </button>
+            </div>
+          </div>
+
+          <div className="form-footer">
+            <p>
+              Don't have an account?{" "}
+              <Link to="/signup" className="signup-link">
+                Sign up
+              </Link>
+            </p>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };

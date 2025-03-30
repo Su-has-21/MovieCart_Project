@@ -1,40 +1,63 @@
-import React, { useContext } from "react";
-import star from "../assets/Images/star-solid.svg";
-import { ProductContext } from "../context/ProductContext";
+import React from "react";
+import { useProduct } from "../context/ProductContext";
+import "../styles/card.css";
 
-const Card = (props) => {
-  // let { Poster, Title, Genre, imdbRating, Year } = props.obj;
-  let { Poster, Title, Year, Genre, imdbRating } = props.obj;
-  let { cart, toggleCart } = useContext(ProductContext);
+const Card = ({ obj }) => {
+  const { Poster, Title, Year, Genre, imdbRating } = obj;
+  const { cart, toggleCart, generatePrice } = useProduct();
 
-  let isInCart = cart.some((item) => item.Title == Title);
+  const isInCart = cart.some((item) => item.Title === Title);
 
-  let handleChanges = () => {
-    toggleCart(props.obj);
+  const handleCartToggle = () => {
+    toggleCart(obj);
   };
 
+  // Get the price from cart if item exists, otherwise generate a new price
+  const price = cart.find(item => item.Title === Title)?.price || generatePrice(Title);
+
   return (
-    <div className="card">
+    <div className="card" role="article">
       <div className="img-wrap">
-        <img src={Poster} alt="" className="img" />
+        <img src={Poster} alt={`${Title} movie poster`} className="img" />
+        <div className="card-overlay">
+          <button 
+            className="preview-btn"
+            aria-label={`Preview ${Title}`}
+          >
+            <i className="fas fa-play"></i>
+          </button>
+        </div>
       </div>
       <div className="info">
         <h3 id="title">{Title}</h3>
-        <div>
-          <p id="genre">{Genre}</p>
+        <div className="movie-details">
+          <p id="genre">
+            <i className="fas fa-film" aria-hidden="true"></i> {Genre}
+          </p>
           <div id="year">
-            <p>{Year}</p>
-
+            <p>
+              <i className="fas fa-calendar" aria-hidden="true"></i> {Year}
+            </p>
             <div className="ratings">
-              <p className="rate">{imdbRating}</p>
-              <img src={star} alt="" style={{ height: "15px" }} />
+              <i className="fas fa-star" aria-hidden="true"></i>
+              <span className="rate">{imdbRating}</span>
             </div>
           </div>
         </div>
-
-        <button onClick={handleChanges}>
-          {isInCart ? "Added" : "Add to cart"}
-        </button>
+        <div className="card-footer">
+          <div className="price">
+            <i className="fas fa-tag" aria-hidden="true"></i>
+            <span>₹{price}</span>
+          </div>
+          <button 
+            className={`cart-btn ${isInCart ? 'in-cart' : ''}`}
+            onClick={handleCartToggle}
+            aria-label={isInCart ? `Remove ${Title} from cart` : `Add ${Title} to cart`}
+          >
+            <i className={`fas ${isInCart ? 'fa-check' : 'fa-shopping-cart'}`} aria-hidden="true"></i>
+            {isInCart ? "Added" : "Add to Cart"}
+          </button>
+        </div>
       </div>
     </div>
   );
